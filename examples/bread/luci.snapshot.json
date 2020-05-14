@@ -1,77 +1,59 @@
 {
-  "name": "bakery",
+  "name": "integration_test",
   "targets": [
     {
-      "path": "//farm:water",
+      "path": "//regular_integration_tests:text_editing",
       "buildTarget": {
-        "name": "water",
+        "name": "text_editing",
         "agentProfiles": [
-          "linux"
+          "linux", 
+          "macos", 
+          "ios", 
+          "android"
         ],
-        "runner": "Farmer"
+        dependencies: [
+          "//:flutter", //clone the correct version of flutter, enable web.
+          "//:similator_installers", // will install/validate emulators.
+          "//:web_installers", // will validate drivers and browsers. will start the drivers.
+        ],
+        browsers: [
+          'chrome',
+          'safari',
+          'ios-safari',
+          'android-chrome',
+        ],
+        drivers: [
+          'chrome',
+          'safari',
+          'ios-safari',
+          'android-chrome',
+        ],
+        "runner": "WebIntegrationTestRunner"
       }
     },
     {
-      "path": "//farm:seeds",
+      "path": "//regular_integration_tests:virtual_keyboard",
       "buildTarget": {
-        "name": "seeds",
+        "name": "virtual_keyboard",
         "agentProfiles": [
-          "linux"
+          "ios", 
+          "android"
         ],
-        "runner": "Farmer"
+        dependencies: [
+          "//:flutter", //clone the correct version of flutter, enable web.
+          "//:similator_installers", // will install/validate emulators.
+          "//:web_installers", // will validate drivers and browsers. will start the drivers.
+        ],
+        browsers: [
+          'ios-safari',
+          'android-chrome',
+        ],
+        drivers: [
+          'ios-safari',
+          'android-chrome',
+        ],
+        "runner": "WebIntegrationTestRunner"
       }
     },
-    {
-      "path": "//farm:compost",
-      "buildTarget": {
-        "name": "compost",
-        "agentProfiles": [
-          "linux"
-        ],
-        "runner": "Farmer"
-      }
-    },
-    {
-      "path": "//farm:wheat",
-      "buildTarget": {
-        "name": "wheat",
-        "agentProfiles": [
-          "linux"
-        ],
-        "runner": "Farmer",
-        "dependencies": [
-          ":water",
-          ":seeds",
-          ":compost"
-        ]
-      }
-    },
-    {
-      "path": "//windmill:flour",
-      "buildTarget": {
-        "name": "flour",
-        "agentProfiles": [
-          "linux"
-        ],
-        "runner": "Windmill",
-        "dependencies": [
-          "//farm:wheat"
-        ]
-      }
-    },
-    {
-      "path": "//bakery:bread",
-      "buildTarget": {
-        "name": "bread",
-        "agentProfiles": [
-          "linux"
-        ],
-        "runner": "Oven",
-        "dependencies": [
-          "//farm:water",
-          "//windmill:flour"
-        ]
-      }
-    }
-  ]
+  ],
 }
